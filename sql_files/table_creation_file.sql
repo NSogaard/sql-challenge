@@ -1,6 +1,9 @@
 -- Creating all of the tables necessary for this assignment
+
 -- These first two tables are the only two with no foreign keys, so they are declared first
 -- departments (from 'departments.csv')
+-- dept_no is declared as a VARCHAR with length 4 because this attribute is always a 4 character long string of characters
+-- dept_name is declared as a VARCHAR with length 30 because the longest department name is a 27 character long string of characters
 CREATE TABLE departments (
 	dept_no VARCHAR(4) PRIMARY KEY,
 	dept_name VARCHAR(30) NOT NULL
@@ -13,11 +16,12 @@ CREATE TABLE titles (
 );
 
 -- employees (from 'employees.csv')
+-- 'birth_date' is nullable in this table as it is never used for a query and is generally not super useful for business analytics
 -- 'emp_title_id' is a foreign key from the 'titles' table (title_id)
 CREATE TABLE employees (
 	emp_no INT PRIMARY KEY,
 	emp_title_id VARCHAR(5) NOT NULL REFERENCES titles (title_id),
-	birth_date DATE NOT NULL,
+	birth_date DATE,
 	first_name VARCHAR(30) NOT NULL,
 	last_name VARCHAR(30) NOT NULL,
 	sex VARCHAR(1) NOT NULL,

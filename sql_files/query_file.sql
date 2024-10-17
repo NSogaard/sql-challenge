@@ -1,7 +1,7 @@
 -- Query #1: List the employee number, last name, first name, sex, and salary of each employee
 SELECT emp.emp_no AS "Employee Number", emp.last_name AS "Last Name", emp.first_name AS "First Name", emp.sex AS "Sex", sal.salary AS "Salary"
 FROM employees as emp
-INNER JOIN salaries AS sal ON sal.emp_no = emp.emp_no;
+LEFT JOIN salaries AS sal ON sal.emp_no = emp.emp_no;
 
 -- Query #2: List the first name, last name, and hire date for the employees who were hired in 1986]
 -- 'extract' function from the following tutorial: https://www.postgresqltutorial.com/postgresql-date-functions/postgresql-extract/
@@ -31,7 +31,7 @@ FROM employees
 WHERE first_name = 'Hercules' AND last_name LIKE 'B%';
 
 -- Query #6: List each employee in the Sales department, including their employee number, last name, and first name
-SELECT dept_emp.emp_no, epi.last_name, epi.first_name
+SELECT dept_emp.emp_no, epi.last_name, epi.first_name, depts.dept_name
 FROM department_employees AS dept_emp
 INNER JOIN departments AS depts ON depts.dept_no = dept_emp.dept_no
 INNER JOIN employee_personal_info AS epi ON epi.emp_no = dept_emp.emp_no
