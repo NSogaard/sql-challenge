@@ -1,13 +1,26 @@
+# 'departments' is just a list of departments, there can be several
+# employees and managers per department, and as such the relationships 
+# that 'departments' has with 'department_managers' and 
+# 'department_employees' are one-to-many. In effect that means that 
+# for every instance of 'departments', there can be many instances of 
+# 'departments_managers' or 'departments_employees'.
 departments
 -
 dept_no PK VARCHAR(4)
 dept_name VARCHAR(30)
 
+# 'titles' is just a list of titles. Each employee can have just one
+# title, while there are several people with each title at the company.
+# Thus, there is a one-to-many relationship between 'titles' and 'employees'.
 titles
 -
 title_id PK VARCHAR(5)
 title VARCHAR(30)
 
+# `employees` is a list of all of the employees at the company (both
+# managers and normal employees). The relationship between 'employees'
+# and `titles` is many-to-one because each employee can only have one 
+# title, while each title can belong to multiple employees.
 employees
 -
 emp_no PK INT
@@ -18,18 +31,32 @@ last_name VARCHAR(30)
 sex VARCHAR(1)
 hire_date DATE
 
+# `salaries` is just a list of all of the salaries being made by the 
+# employees at the company. It has a many-to-one relationship with
+# 'employees' as each employee is only making one salary, but many 
+# employees can make the same salary amount.
 salaries
 -
-emp_no PK FK - employees.emp_no INT
+emp_no PK FK >- employees.emp_no INT
 salary INT
 
+# `department_employees` is a list of all of the employees in the firm
+# (including the managers). It has a many-to-one relationship with 'employees',
+# as each individual employee can work in more than one department (and thus there
+# would be more than one instance of 'department_employees' for each instance of 'employees')
+# There is a many-to-one relationship between 'department_employees' and 'departments' as 
+# each department will have more than one employee listed in this table.
 department_employees
 -
-emp_no PK FK - employees.emp_no INT
-dept_no PK FK - departments.dept_no VARCHAR(4),
+emp_no PK FK >- employees.emp_no INT
+dept_no PK FK >- departments.dept_no VARCHAR(4),
 
-Department-Managers
+# `department_managers` is a list of all of the managers in the firm. It has a one-to-one
+# relationship with 'employees', as one employee cannot have multiple manager roles at the
+# same time. It has a many-to-one relationship with 'departments' as each department can
+# have more than one manager, while each manager can only be the manager of one department.
+department_managers
 -
 emp_no PK FK - employees.emp_no INT
-dept_no PK FK - departments.dept_no VARCHAR(4)
+dept_no PK FK >- departments.dept_no VARCHAR(4)
 
